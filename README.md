@@ -22,7 +22,7 @@
 ## 📦 Installation
 1. **Clone the Repository**:
 ```bash
-git clone https://github.com/your-username/kanban-board.git
+git clone https://github.com/NathanTBeene/kanban-board
 cd project-name
 ```
 2. **Install dependencies**:
