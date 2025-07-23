@@ -2,7 +2,7 @@
   "name": "kanban-board",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://beenen.github.io/kanban-board/",
+  "homepage": "https://NathanTBeene.github.io/kanban-board/",
   "type": "module",
   "scripts": {
     "dev": "vite",
