@@ -222,6 +222,20 @@ export function useBoardManager() {
     });
   };
 
+  const markAllStatus = (columnId: Id, status: boolean) => {
+    setBoard((prevBoard) => ({
+      ...prevBoard,
+      columns: prevBoard.columns.map((column) =>
+        column.id === columnId
+          ? {
+              ...column,
+              items: column.items.map((item) => ({ ...item, status })),
+            }
+          : column
+      ),
+    }));
+  }
+
   return {
     board,
     setBoard,
@@ -243,5 +257,6 @@ export function useBoardManager() {
     switchEntries,
     getEntryIndex,
     updateEntryStatus,
+    markAllStatus,
   };
 }

@@ -5,7 +5,7 @@ import { BoardContext } from "../Board";
 import type { Id } from "../../lib/data/types";
 import OptionsModal from "../OptionsModal";
 
-const OPTIONS = ["Delete Column"];
+const OPTIONS = ["Delete Column", "Mark all as Complete", "Mark all as Incomplete"];
 
 
 const Header = ({ id, title, length, sortable}: { id: Id; title: string; length: number; sortable: { attributes: any; listeners: any, isDragging: boolean } }) => {
@@ -14,6 +14,8 @@ const Header = ({ id, title, length, sortable}: { id: Id; title: string; length:
   if (!context) {
     throw new Error("Header must be used within a BoardContext.Provider");
   }
+
+  const {markAllStatus} = context;
 
   const { updateColumnTitle, removeColumn } = context;
   const [modalOpen, setModalOpen] = useState(false);
@@ -35,6 +37,16 @@ const Header = ({ id, title, length, sortable}: { id: Id; title: string; length:
     setModalOpen(false);
     if (option === "Delete Column") {
       removeColumn(id);
+    }
+
+    if (option === "Mark all as Complete") {
+      markAllStatus(id, true);
+      return;
+    }
+
+    if (option === "Mark all as Incomplete") {
+      markAllStatus(id, false);
+      return;
     }
   };
 

@@ -86,7 +86,7 @@ const Entry = ({ columnId, entry }: { columnId: Id; entry: EntryData }) => {
 
   const customStyle = `
     p-3 rounded-md shadow-sm  border-1
-    ${entry.status ? "bg-gradient-to-br from-20% from-emerald-400 to-emerald-200 text-slate-800" : "bg-gradient-to-br from-slate-600 to-slate-700"}
+    ${entry.status ? "bg-gradient-to-br from-emerald-500 to-emerald-300 text-slate-800" : "bg-slate-700"}
     ${isEditing ? "border-indigo-400" : "border-slate-600"}
     ${isDragging ? "opacity-0" : "opacity-100"}
     transition-all duration-300
