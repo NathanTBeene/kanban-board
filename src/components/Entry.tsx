@@ -87,7 +87,7 @@ const Entry = ({ columnId, entry }: { columnId: Id; entry: EntryData }) => {
   const customStyle = `
     p-3 rounded-md shadow-sm  border-1
     ${entry.status ? "bg-gradient-to-br from-emerald-500 to-emerald-300 text-slate-800" : "bg-slate-700"}
-    ${isEditing ? "border-indigo-400" : "border-slate-600"}
+    ${entry.status ? "border-emerald-500" : (isEditing ? "border-indigo-400" : "border-slate-600")}
     ${isDragging ? "opacity-0" : "opacity-100"}
     transition-all duration-300
   `;
@@ -121,9 +121,10 @@ const Entry = ({ columnId, entry }: { columnId: Id; entry: EntryData }) => {
           className="pl-4 w-[94%] focus:outline-none resize-none field-sizing-content"
           value={entryText}
           onChange={(e) => setEntryText(e.target.value)}
-          onFocus={() => setIsEditing(true)}
+          onFocus={() => entry.status && setIsEditing(true)}
           onBlur={onBlur}
           onKeyDown={onKeyboardDown}
+          {...(entry.status ? { readOnly: true } : {})}
         />
       </div>
       {modalOpen && (
