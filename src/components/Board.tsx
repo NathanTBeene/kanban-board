@@ -1,7 +1,7 @@
 import { createContext, useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { FaPrint } from "react-icons/fa6";
-import type { BoardData, ColumnData, EntryData } from "../lib/data/types";
+import type { ColumnData, EntryData } from "../lib/data/types";
 import Column from "./Columns/Column";
 import { useBoardManager } from "../lib/services/BoardManager";
 import { DndContext, DragOverlay } from "@dnd-kit/core";
@@ -12,8 +12,8 @@ export const BoardContext = createContext<ReturnType<
   typeof useBoardManager
 > | null>(null);
 
-const Board = ({ initialBoard }: { initialBoard: BoardData }) => {
-  const manager = useBoardManager(initialBoard);
+const Board = () => {
+  const manager = useBoardManager();
   const [addHover, setAddHover] = useState(false);
   const [printHover, setPrintHover] = useState(false);
 

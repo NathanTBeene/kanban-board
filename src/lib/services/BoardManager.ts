@@ -1,10 +1,57 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import type { Id, BoardData, ColumnData, EntryData } from "../data/types";
 
-export function useBoardManager(initialBoard: BoardData) {
-  const [board, setBoard] = useState<BoardData>(initialBoard);
+const initialBoardData: BoardData = {
+  id: 1,
+  columns: [
+    {
+      id: "column-todo",
+      title: "To Do",
+      items: [
+        { id: "entry-101", description: "Set up project structure" },
+        { id: "entry-102", description: "Design board layout" },
+      ],
+    },
+    {
+      id: "column-in-progress",
+      title: "In Progress",
+      items: [
+        { id: "entry-201", description: "Implement column component" },
+      ],
+    },
+    {
+      id: "column-done",
+      title: "Done",
+      items: [
+        { id: "entry-301", description: "Initialize repository" },
+      ],
+    },
+  ],
+};
+
+export function useBoardManager() {
+  const [board, setBoard] = useState<BoardData>({id: 1, columns: []} as BoardData);
   const [activeColumnId, setActiveColumnId] = useState<Id | null>(null);
   const [activeEntryId, setActiveEntryId] = useState<Id | null>(null);
+  const loaded = useRef(false);
+
+  // Load board data from localStorage
+  useEffect(() => {
+    const data = localStorage.getItem("kanban-board");
+    if (data) {
+      setBoard(JSON.parse(data) as BoardData);
+    } else {
+      setBoard(initialBoardData);
+    }
+    loaded.current = true;
+  }, []);
+
+  // Save board data to localStorage
+  useEffect(() => {
+    if (loaded.current && board.columns.length > 0) {
+      localStorage.setItem("kanban-board", JSON.stringify(board, null, 2));
+    }
+  }, [board]);
 
   const swapIndexes = (array: any[], fromIndex: number, toIndex: number) => {
     const newArray = [...array];
