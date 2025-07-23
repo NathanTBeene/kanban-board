@@ -7,6 +7,7 @@ import OptionsModal from "./OptionsModal";
 import { useSortable } from "@dnd-kit/sortable";
 
 const Entry = ({ columnId, entry }: { columnId: Id; entry: EntryData }) => {
+  const TEXT_LIMIT = 500;
   const ENTRY_OPTIONS = [
     "Delete",
     entry.status ? "Mark as Uncomplete" : "Mark as Complete",
@@ -14,6 +15,7 @@ const Entry = ({ columnId, entry }: { columnId: Id; entry: EntryData }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [entryText, setEntryText] = useState(entry.description);
+  const [error, setError] = useState<boolean>(false);
   const context = useContext(BoardContext);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const shouldSaveOnBlur = useRef(false);
@@ -65,6 +67,12 @@ const Entry = ({ columnId, entry }: { columnId: Id; entry: EntryData }) => {
   const onKeyboardDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
+
+      if (entryText.length > TEXT_LIMIT) {
+        setError(true);
+        return;
+      }
+
       saveEntry(entryText);
 
       shouldSaveOnBlur.current = true; // Set the flag to save on blur
@@ -82,12 +90,14 @@ const Entry = ({ columnId, entry }: { columnId: Id; entry: EntryData }) => {
     }
 
     setEntryText(entry.description); // Reset to original text
+    setError(false);
   };
 
   const customStyle = `
     p-3 rounded-md shadow-sm  border-1
     ${entry.status ? "bg-gradient-to-br from-emerald-500 to-emerald-300 text-slate-800" : "bg-slate-700"}
-    ${entry.status ? "border-emerald-500" : (isEditing ? "border-indigo-400" : "border-slate-600")}
+    ${isEditing ? "border-indigo-400" : "border-slate-600"}
+    ${error ? "border-red-500" : ""}
     ${isDragging ? "opacity-0" : "opacity-100"}
     transition-all duration-300
   `;
@@ -116,12 +126,25 @@ const Entry = ({ columnId, entry }: { columnId: Id; entry: EntryData }) => {
             className={`focus:outline-none`}
           />
         </div>
+        {/* Character Counter */}
+        <div className={`absolute text-xs bottom-4 right-2 ${entryText.length > TEXT_LIMIT ? "text-red-500" : "text-slate-400"}`}>
+            <span className={`transition-all duration-200 ${entryText.length > TEXT_LIMIT/2 ? "opacity-100" : "opacity-0"}`}>
+              {entryText.length}/{TEXT_LIMIT}
+            </span>
+        </div>
         <textarea
           ref={textAreaRef}
-          className="pl-4 w-[94%] focus:outline-none resize-none field-sizing-content"
+          className={
+            `pl-4 w-[94%] focus:outline-none resize-none field-sizing-content transition-all duration-200
+            ${entryText.length > TEXT_LIMIT/2 ? "pb-4" : ""}`
+          }
           value={entryText}
-          onChange={(e) => setEntryText(e.target.value)}
-          onFocus={() => entry.status && setIsEditing(true)}
+          onChange={e => setEntryText(e.target.value)}
+          onFocus={() => {
+            if (entry.status) return;
+            setIsEditing(true);
+            setError(false);
+          }}
           onBlur={onBlur}
           onKeyDown={onKeyboardDown}
           {...(entry.status ? { readOnly: true } : {})}
