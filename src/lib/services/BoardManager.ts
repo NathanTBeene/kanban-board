@@ -8,22 +8,22 @@ const initialBoardData: BoardData = {
       id: "column-todo",
       title: "To Do",
       items: [
-        { id: "entry-101", description: "Set up project structure" },
-        { id: "entry-102", description: "Design board layout" },
+        { id: "entry-101", description: "Set up project structure", status: false },
+        { id: "entry-102", description: "Design board layout", status: false },
       ],
     },
     {
       id: "column-in-progress",
       title: "In Progress",
       items: [
-        { id: "entry-201", description: "Implement column component" },
+        { id: "entry-201", description: "Implement column component", status: false },
       ],
     },
     {
       id: "column-done",
       title: "Done",
       items: [
-        { id: "entry-301", description: "Initialize repository" },
+        { id: "entry-301", description: "Initialize repository", status: true },
       ],
     },
   ],
@@ -103,6 +103,7 @@ export function useBoardManager() {
     return {
       id: `entry-${Date.now().toString()}` as Id,
       description,
+      status: false,
     };
   };
 
@@ -148,6 +149,22 @@ export function useBoardManager() {
       ),
     }));
   };
+
+  const updateEntryStatus = (columnId: Id, entryId: Id, status: boolean) => {
+    setBoard((prevBoard) => ({
+      ...prevBoard,
+      columns: prevBoard.columns.map((column) =>
+        column.id === columnId
+          ? {
+              ...column,
+              items: column.items.map((item) =>
+                item.id === entryId ? { ...item, status } : item
+              ),
+            }
+          : column
+      ),
+    }));
+  }
 
   const getEntryColumnId = (entryId: Id): Id | null => {
     for (const column of board.columns) {
@@ -225,5 +242,6 @@ export function useBoardManager() {
     switchEntryColumns,
     switchEntries,
     getEntryIndex,
+    updateEntryStatus,
   };
 }

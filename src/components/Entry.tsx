@@ -6,9 +6,11 @@ import { BoardContext } from "./Board";
 import OptionsModal from "./OptionsModal";
 import { useSortable } from "@dnd-kit/sortable";
 
-const ENTRY_OPTIONS = ["Delete"];
-
 const Entry = ({ columnId, entry }: { columnId: Id; entry: EntryData }) => {
+  const ENTRY_OPTIONS = [
+    "Delete",
+    entry.status ? "Mark as Uncomplete" : "Mark as Complete",
+  ];
   const [isEditing, setIsEditing] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [entryText, setEntryText] = useState(entry.description);
@@ -27,19 +29,11 @@ const Entry = ({ columnId, entry }: { columnId: Id; entry: EntryData }) => {
     id: entry.id,
   });
 
-  const style = {
-    opacity: isDragging ? 0 : 1,
-    transform: transform
-      ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
-      : undefined,
-    transition: transition,
-  };
-
   if (!context) {
     throw new Error("Entry must be used within a BoardContext.Provider");
   }
 
-  const { removeEntry, editEntry } = context;
+  const { removeEntry, editEntry, updateEntryStatus } = context;
 
   const saveEntry = (newDescription: string) => {
     editEntry(columnId, entry.id, newDescription);
@@ -54,6 +48,16 @@ const Entry = ({ columnId, entry }: { columnId: Id; entry: EntryData }) => {
 
     if (option === "Delete") {
       removeEntry(columnId, entry.id);
+      return;
+    }
+
+    if (option === "Mark as Complete") {
+      updateEntryStatus(columnId, entry.id, true);
+      return;
+    }
+
+    if (option === "Mark as Uncomplete") {
+      updateEntryStatus(columnId, entry.id, false);
       return;
     }
   };
@@ -80,35 +84,48 @@ const Entry = ({ columnId, entry }: { columnId: Id; entry: EntryData }) => {
     setEntryText(entry.description); // Reset to original text
   };
 
+  const customStyle = `
+    p-3 rounded-md shadow-sm  border-1
+    ${entry.status ? "bg-gradient-to-br from-20% from-emerald-400 to-emerald-200 text-slate-800" : "bg-gradient-to-br from-slate-600 to-slate-700"}
+    ${isEditing ? "border-indigo-400" : "border-slate-600"}
+    ${isDragging ? "opacity-0" : "opacity-100"}
+    transition-all duration-300
+  `;
+
+  const dragStyle = {
+    transform: transform
+      ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
+      : undefined,
+    transition: transition,
+  };
+
   return (
-    <div
-      className={`bg-slate-700 p-3 rounded-md shadow-sm relative border-1 ${
-        isEditing ? "border-indigo-400" : "border-slate-600"
-      } transition-all duration-200`}
-      ref={setNodeRef}
-      style={style}
-    >
-      <div className="absolute top-2 right-2 cursor-pointer pt-1 pb-1 rounded-full hover:bg-slate-600 transition-all duration-200">
-        <BsThreeDotsVertical
-          onClick={() => setModalOpen(!modalOpen)}
+    <div className="relative w-full h-full">
+      <div className={customStyle} ref={setNodeRef} style={dragStyle}>
+        <div className="absolute top-2 right-2 cursor-pointer pt-1 pb-1 rounded-full hover:bg-slate-600 transition-all duration-200">
+          <BsThreeDotsVertical onClick={() => setModalOpen(!modalOpen)} />
+        </div>
+        <div
+          className={`absolute text-lg top-4 left-1 ${
+            isDragging ? "cursor-grabbing" : "cursor-grab"
+          }`}
+        >
+          <GoGrabber
+            {...attributes}
+            {...listeners}
+            className={`focus:outline-none`}
+          />
+        </div>
+        <textarea
+          ref={textAreaRef}
+          className="pl-4 w-[94%] focus:outline-none resize-none field-sizing-content"
+          value={entryText}
+          onChange={(e) => setEntryText(e.target.value)}
+          onFocus={() => setIsEditing(true)}
+          onBlur={onBlur}
+          onKeyDown={onKeyboardDown}
         />
       </div>
-      <div className={`absolute text-lg top-3 left-1 ${isDragging ? "cursor-grabbing" : "cursor-grab"} pt-1 pb-1 rounded-full hover:bg-slate-600 transition-all duration-200`}>
-        <GoGrabber
-          {...attributes}
-          {...listeners}
-          className={`focus:outline-none`}
-        />
-      </div>
-      <textarea
-        ref={textAreaRef}
-        className="pl-4 w-[94%] focus:outline-none resize-none field-sizing-content"
-        value={entryText}
-        onChange={(e) => setEntryText(e.target.value)}
-        onFocus={() => setIsEditing(true)}
-        onBlur={onBlur}
-        onKeyDown={onKeyboardDown}
-      />
       {modalOpen && (
         <OptionsModal
           options={ENTRY_OPTIONS}

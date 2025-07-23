@@ -28,7 +28,7 @@ const OptionsModal = ({ options, onClose, onOptionSelect }: OptionsModalProps) =
         {options.map((option, index) => (
           <button
             key={option}
-            className={`whitespace-nowrap p-1 pl-2 pr-2 border-1 border-transparent hover:bg-slate-600 cursor-pointer ${index < options.length - 1 ? 'border-b-slate-600' : ''}`}
+            className={`whitespace-nowrap w-full text-left p-1 pl-2 pr-2 border-1 border-transparent hover:bg-slate-600 cursor-pointer ${index < options.length - 1 ? 'border-b-slate-600' : ''}`}
             onClick={() => onOptionSelect(option)}
           >
             {option}

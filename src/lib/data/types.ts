@@ -14,4 +14,5 @@ export interface ColumnData {
 export interface EntryData {
   id: Id;
   description: string;
+  status: boolean;
 }

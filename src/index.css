@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 html, body .App{
-  @apply h-screen w-screen m-0 p-0 box-border bg-slate-900 text-white items-center justify-center flex flex-col;
+  @apply h-screen w-screen m-0 p-0 box-border bg-gradient-to-br from-slate-900 to-slate-800 text-white items-center justify-center flex flex-col;
 }
 
 .scroll {
