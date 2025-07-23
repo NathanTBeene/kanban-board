@@ -1,5 +1,7 @@
 # 📌 Kanban Board
 > A simple and customizable Kanban board built with React, featuring drag-and-drop task management and a modern, responsive design.
+
+![Example Image](/public/Example.png)
 ## ✨ Features
 | Feature                                 | Implemented |
 |------------------------------------------|:-----------:|
