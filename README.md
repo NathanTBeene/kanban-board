@@ -9,8 +9,8 @@
 | Add, edit, and delete tasks              | ✅          |
 | Easy column reordering                   | ✅          |
 | Persistent state with local storage      | ✅          |
+| Visual task status indicators            | ✅          |
 | Quick task filtering and searching       | ❌          |
-| Visual task status indicators            | ❌          |
 ## 🛠 Tech Stack
 - **React** – UI library for building interactive interfaces.
 - **Tailwind CSS** – Utility-first CSS framework for styling.
