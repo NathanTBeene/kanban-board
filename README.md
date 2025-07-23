@@ -15,6 +15,8 @@ You can view the [Live Demo](https://nathantbeene.github.io/kanban-board/) of th
 | Persistent state with local storage      | ✅          |
 | Visual task status indicators            | ✅          |
 | Quick task filtering and searching       | ❌          |
+| Limiting field size for name and textarea       | ❌          |
+| Editing fields only when incomplete.       | ❌          |
 ## 🛠 Tech Stack
 - **React** – UI library for building interactive interfaces.
 - **Tailwind CSS** – Utility-first CSS framework for styling.
