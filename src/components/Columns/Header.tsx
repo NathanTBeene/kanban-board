@@ -99,7 +99,11 @@ const Header = ({
         className={`font-bold text-lg rounded-md p-1
           border-1  focus:outline-none
           transition-all duration-200 
-          ${error ? "border-red-500" : "border-transparent focus:border-b-indigo-400"}`}
+          ${
+            error
+              ? "border-red-500"
+              : "border-transparent focus:border-b-indigo-400"
+          }`}
         value={titleText}
         onChange={onChange}
         onKeyDown={onKeyDown}

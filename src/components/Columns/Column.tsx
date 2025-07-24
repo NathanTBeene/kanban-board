@@ -19,7 +19,6 @@ const Column = ({ column }: { column: ColumnData }) => {
     id: column.id,
   });
 
-
   const style = {
     opacity: isDragging ? 0 : 1,
     transform: transform

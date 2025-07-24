@@ -8,7 +8,11 @@ const initialBoardData: BoardData = {
       id: "column-todo",
       title: "To Do",
       items: [
-        { id: "entry-101", description: "Set up project structure", status: false },
+        {
+          id: "entry-101",
+          description: "Set up project structure",
+          status: false,
+        },
         { id: "entry-102", description: "Design board layout", status: false },
       ],
     },
@@ -16,7 +20,11 @@ const initialBoardData: BoardData = {
       id: "column-in-progress",
       title: "In Progress",
       items: [
-        { id: "entry-201", description: "Implement column component", status: false },
+        {
+          id: "entry-201",
+          description: "Implement column component",
+          status: false,
+        },
       ],
     },
     {
@@ -30,7 +38,10 @@ const initialBoardData: BoardData = {
 };
 
 export function useBoardManager() {
-  const [board, setBoard] = useState<BoardData>({id: 1, columns: []} as BoardData);
+  const [board, setBoard] = useState<BoardData>({
+    id: 1,
+    columns: [],
+  } as BoardData);
   const [activeColumnId, setActiveColumnId] = useState<Id | null>(null);
   const [activeEntryId, setActiveEntryId] = useState<Id | null>(null);
   const loaded = useRef(false);
@@ -164,7 +175,7 @@ export function useBoardManager() {
           : column
       ),
     }));
-  }
+  };
 
   const getEntryColumnId = (entryId: Id): Id | null => {
     for (const column of board.columns) {
@@ -234,7 +245,7 @@ export function useBoardManager() {
           : column
       ),
     }));
-  }
+  };
 
   return {
     board,

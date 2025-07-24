@@ -168,27 +168,31 @@ const Board = () => {
       <button
         onMouseEnter={() => setAddHover(true)}
         onMouseLeave={() => setAddHover(false)}
-        className={
-          `absolute top-8 right-8 bg-slate-700 text-white font-bold h-10 w-10 p-3 rounded-full cursor-pointer flex items-center justify-end text-xl overflow-hidden gap-2
+        className={`absolute top-8 right-8 bg-slate-700 text-white font-bold h-10 w-10 p-3 rounded-full cursor-pointer flex items-center justify-end text-xl overflow-hidden gap-2
           hover:bg-slate-600 hover:w-35
-          transition-all duration-300`
-        }
+          transition-all duration-300`}
         onClick={() => manager.addColumn("Column")}
       >
-        {addHover ? <span className={`text-sm inline whitespace-nowrap overflow-hidden`}>Add Column</span> : null}
+        {addHover ? (
+          <span className={`text-sm inline whitespace-nowrap overflow-hidden`}>
+            Add Column
+          </span>
+        ) : null}
         <FaPlus />
       </button>
       <button
         onMouseEnter={() => setPrintHover(true)}
         onMouseLeave={() => setPrintHover(false)}
-        className={
-          `absolute top-20 right-8 bg-slate-700 text-white font-bold h-10 w-10 p-3 rounded-full cursor-pointer flex items-center justify-end text-xl overflow-hidden gap-2
+        className={`absolute top-20 right-8 bg-slate-700 text-white font-bold h-10 w-10 p-3 rounded-full cursor-pointer flex items-center justify-end text-xl overflow-hidden gap-2
           hover:bg-slate-600 hover:w-40
-          transition-all duration-300`
-        }
+          transition-all duration-300`}
         onClick={() => console.log(manager.board.columns)}
       >
-        {printHover ? <span className={`text-sm inline whitespace-nowrap overflow-hidden`}>Log Board Data</span> : null}
+        {printHover ? (
+          <span className={`text-sm inline whitespace-nowrap overflow-hidden`}>
+            Log Board Data
+          </span>
+        ) : null}
         <FaPrint />
       </button>
     </BoardContext.Provider>
