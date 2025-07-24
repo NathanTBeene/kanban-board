@@ -16,7 +16,6 @@ You can view the [Live Demo](https://nathantbeene.github.io/kanban-board/) of th
 | Visual task status indicators            | ✅          |
 | Editing fields only when incomplete.       | ✅          |
 | Limiting field size for name and textarea       | ✅          |
-| Quick task filtering and searching       | ❌          |
 ## 🛠 Tech Stack
 - **React** – UI library for building interactive interfaces.
 - **Tailwind CSS** – Utility-first CSS framework for styling.
