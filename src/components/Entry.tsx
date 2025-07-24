@@ -127,8 +127,8 @@ const Entry = ({ columnId, entry }: { columnId: Id; entry: EntryData }) => {
           />
         </div>
         {/* Character Counter */}
-        <div className={`absolute text-xs bottom-4 right-2 ${entryText.length > TEXT_LIMIT ? "text-red-500" : "text-slate-400"}`}>
-            <span className={`transition-all duration-200 ${entryText.length > TEXT_LIMIT/2 ? "opacity-100" : "opacity-0"}`}>
+        <div className={`absolute text-xs bottom-2 right-2 ${entryText.length > TEXT_LIMIT ? "text-red-500" : "text-slate-400"}`}>
+            <span className={`transition-all duration-200 ${(entryText.length > (TEXT_LIMIT-100)) && isEditing ? "opacity-100" : "opacity-0"}`}>
               {entryText.length}/{TEXT_LIMIT}
             </span>
         </div>
@@ -136,7 +136,7 @@ const Entry = ({ columnId, entry }: { columnId: Id; entry: EntryData }) => {
           ref={textAreaRef}
           className={
             `pl-4 w-[94%] focus:outline-none resize-none field-sizing-content transition-all duration-200
-            ${entryText.length > TEXT_LIMIT/2 ? "pb-4" : ""}`
+            ${entryText.length > TEXT_LIMIT-100 ? "pb-4" : ""}`
           }
           value={entryText}
           onChange={e => setEntryText(e.target.value)}
